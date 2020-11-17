@@ -1,31 +1,36 @@
 package ru.netology;
+import com.github.javafaker.Faker;
 
-import lombok.Value;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class DataGenerator {
-    private DataHelper() {}
 
-    @Value
-    public static class AuthInfo {
-        private String login;
-        private String password;
+
+private Faker faker;
+    LocalDate today = LocalDate.now();
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    public String createDate(int plusDays) {
+        LocalDate newDate = today.plusDays(plusDays);
+        return formatter.format(newDate);
     }
 
-    public static AuthInfo getAuthInfo() {
-        return new AuthInfo("vasya", "qwerty123");
+    public String getCity() {
+        String[] CityList = new String[]{"Абакан", "Анадырь", "Архангельск", "Астрахань", "Барнаул", "Владикавказ", "Горно-Алтайск", "Йошкар-Ола", "Казань", "Калининград", "Калуга", "Краснодар", "Магас", "Махачкала", "Нарьян-Мар", "Салехард", "Самара", "Саранск", "Саратов", "Хабаровск", "Ханты-Мансийск", "Южно-Сахалинск", "Великий Новгород", "Владивосток", "Владимир", "Вологда", "Рязань", "Биробиджан", "Чебоксары", "Москва", "Санкт-Петербург", "Ульяновск", "Симферополь", "Ростов-на-Дону"};
+        int city = (int) Math.floor(Math.random() * CityList.length);
+        return CityList[city];
+    }
+    public String getName() {
+       faker = new Faker(new Locale("ru"));
+        return (faker.name().lastName()+(" ")+faker.name().firstName());
     }
 
-    public static AuthInfo getOtherAuthInfo(AuthInfo original) {
-        return new AuthInfo("petya", "123qwerty");
-    }
-
-    @Value
-    public static class VerificationCode {
-        private String code;
-    }
-
-    public static VerificationCode getVerificationCodeFor(AuthInfo authInfo) {
-        return new VerificationCode("12345");
+    public String getPhone() {
+      faker = new Faker(new Locale("ru"));
+        return faker.phoneNumber().phoneNumber();
     }
 }
 
